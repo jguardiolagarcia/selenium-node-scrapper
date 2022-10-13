@@ -43,14 +43,13 @@ async function start() {
       await storeValue(store, "address", storeObject);
       await storeValue(store, "phone", storeObject);
       await storeValue(store, "url", storeObject);
-      storesArray.push(storeObject.join(','));
+      storesArray.push(storeObject.join(","));
     }
     console.log(storesArray.length);
-
   }
-  fs.writeFileSync("./outputs/output.csv", storesArray.join('\r\n'), "utf-8");
+  fs.writeFileSync("./outputs/output.csv", storesArray.join("\r\n"), "utf-8");
 
-  // driver.quit();
+  driver.quit();
 }
 
 start();
@@ -63,13 +62,12 @@ async function storeValue(store, property, storeObject) {
     );
     if (property != "url") {
       value = await attribute.getText();
-      value = '"'+value.replace(/[\n\r]/g,' ')+'"';
+      value = '"' + value.replace(/[\n\r]/g, " ") + '"';
       // value = value.replaceAll(',','');
       // value = value.replace(/[\n\r]/g,' ');
     } else {
       let aTag = await attribute.findElement(By.css("a"));
-      value = await aTag.getAttribute('href');
-
+      value = await aTag.getAttribute("href");
     }
     storeObject.push(value);
   } catch (e) {
@@ -77,4 +75,3 @@ async function storeValue(store, property, storeObject) {
     storeObject.push('""');
   }
 }
-
